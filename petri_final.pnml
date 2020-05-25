@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<pnml>
+  <net id="net1" type="http://www.pnml.org/version-2009/grammar/pnmlcoremodel">
+    <page id="n0">
+      <place id="start">
+        <name>
+          <text>start</text>
+        </name>
+        <initialMarking>
+          <text>1</text>
+        </initialMarking>
+      </place>
+      <place id="end">
+        <name>
+          <text>end</text>
+        </name>
+      </place>
+      <transition id="Remove guidewire">
+        <name>
+          <text>Remove guidewire</text>
+        </name>
+      </transition>
+      <transition id="Advance catheter">
+        <name>
+          <text>Advance catheter</text>
+        </name>
+      </transition>
+      <transition id="Doppler identification">
+        <name>
+          <text>Doppler identification</text>
+        </name>
+      </transition>
+      <transition id="Clean puncture area">
+        <name>
+          <text>Clean puncture area</text>
+        </name>
+      </transition>
+      <transition id="Blood return">
+        <name>
+          <text>Blood return</text>
+        </name>
+      </transition>
+      <transition id="Puncture">
+        <name>
+          <text>Puncture</text>
+        </name>
+      </transition>
+      <transition id="Check wire in long axis">
+        <name>
+          <text>Check wire in long axis</text>
+        </name>
+      </transition>
+      <transition id="Gel in probe">
+        <name>
+          <text>Gel in probe</text>
+        </name>
+      </transition>
+      <transition id="Position patient">
+        <name>
+          <text>Position patient</text>
+        </name>
+      </transition>
+      <transition id="Cover probe">
+        <name>
+          <text>Cover probe</text>
+        </name>
+      </transition>
+      <transition id="Anatomic identification">
+        <name>
+          <text>Anatomic identification</text>
+        </name>
+      </transition>
+      <transition id="Guidewire install">
+        <name>
+          <text>Guidewire install</text>
+        </name>
+      </transition>
+      <transition id="Drap puncture area">
+        <name>
+          <text>Drap puncture area</text>
+        </name>
+      </transition>
+      <transition id="Check catheter position">
+        <name>
+          <text>Check catheter position</text>
+        </name>
+      </transition>
+      <transition id="Widen pathway">
+        <name>
+          <text>Widen pathway</text>
+        </name>
+      </transition>
+      <transition id="Wire in good position">
+        <name>
+          <text>Wire in good position</text>
+        </name>
+      </transition>
+      <transition id="Position probe">
+        <name>
+          <text>Position probe</text>
+        </name>
+      </transition>
+      <transition id="Remove syringe">
+        <name>
+          <text>Remove syringe</text>
+        </name>
+      </transition>
+      <transition id="Put sterile gel">
+        <name>
+          <text>Put sterile gel</text>
+        </name>
+      </transition>
+      <transition id="Remove trocar">
+        <name>
+          <text>Remove trocar</text>
+        </name>
+      </transition>
+      <transition id="Anesthetize">
+        <name>
+          <text>Anesthetize</text>
+        </name>
+      </transition>
+      <transition id="Ultrasound configuration">
+        <name>
+          <text>Ultrasound configuration</text>
+        </name>
+      </transition>
+      <transition id="Hand washing">
+        <name>
+          <text>Hand washing</text>
+        </name>
+      </transition>
+      <transition id="Check flow and reflow">
+        <name>
+          <text>Check flow and reflow</text>
+        </name>
+      </transition>
+      <transition id="Check wire in short axis">
+        <name>
+          <text>Check wire in short axis</text>
+        </name>
+      </transition>
+      <transition id="Compression identification">
+        <name>
+          <text>Compression identification</text>
+        </name>
+      </transition>
+      <transition id="Drop probe">
+        <name>
+          <text>Drop probe</text>
+        </name>
+      </transition>
+      <transition id="Prepare implements">
+        <name>
+          <text>Prepare implements</text>
+        </name>
+      </transition>
+      <transition id="Get in sterile clothes">
+        <name>
+          <text>Get in sterile clothes</text>
+        </name>
+      </transition>
+      <arc id="-9223371876827548608" source="start" target="Position patient"/>
+      <arc id="-9223371876827548604" source="start" target="Hand washing"/>
+      <arc id="-9223371876827548600" source="start" target="Prepare implements"/>
+      <arc id="-9223371876827548580" source="Check flow and reflow" target="end"/>
+      <arc id="-9223371876827548592" source="Remove guidewire" target="end"/>
+      <arc id="-9223371876827548588" source="Check catheter position" target="end"/>
+      <arc id="-9223371876827548616" source="start" target="Get in sterile clothes"/>
+      <arc id="-9223371876827548584" source="Advance catheter" target="end"/>
+      <arc id="-9223371876827548612" source="start" target="Ultrasound configuration"/>
+    </page>
+    <finalmarkings>
+      <marking>
+        <place idref="end">
+          <text>1</text>
+        </place>
+      </marking>
+    </finalmarkings>
+  </net>
+</pnml>

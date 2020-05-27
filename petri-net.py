@@ -2,7 +2,13 @@ import os
 
 import os
 from pm4py.objects.log.importer.xes import importer as xes_importer
-log = xes_importer.apply(os.path.join("CCC19.xes"))
+log = xes_importer.apply(os.path.join("log","PrepaidTravelCost.xes"))
+
+from pm4py.algo.filtering.log.start_activities import start_activities_filter
+log_start = start_activities_filter.get_start_activities(log)
+
+print(log_start)
+
 
 from pm4py.algo.discovery.alpha import algorithm as alpha_miner
 net, initial_marking, final_marking = alpha_miner.apply(log)

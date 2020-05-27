@@ -1,6 +1,6 @@
 
 #read log file
-fp=open('CCC19.xes')
+fp=open('./log1.xes')
 lines = fp.readlines()
 #init parameters
 count=0
@@ -9,7 +9,7 @@ idx=[]
 #idx_jump for filter use
 idx_jump=[]
 #number for filter number of event
-n=60
+n=1
 #start
 for i in range(len(lines)):
     if'<trace>' in lines[i]:
@@ -32,12 +32,11 @@ for i in range(len(lines)):
 i=0
 for i in idx:
     print('trace in line',i)
-print('trace number is ',len(idx)/2)
 for i in idx_jump:
     print('jump from line',i)
 idx_jump.append(len(lines))
 idx_jump.append(len(lines))
-
+print('trace number is ',len(idx)/2)
 #new_line is used for filtered log
 new_line =[]
 j=0

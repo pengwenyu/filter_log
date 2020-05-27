@@ -26,6 +26,8 @@ from pm4py.algo.filtering.log.attributes import attributes_filter
 activities = attributes_filter.get_attribute_values(log, "concept:name")
 resources = attributes_filter.get_attribute_values(log, "org:resource")
 
+print(activities)
+
 from pm4py.statistics.traces.log import case_statistics
 variants_count = case_statistics.get_variant_statistics(log)
 variants_count = sorted(variants_count, key=lambda x: x['count'], reverse=True)

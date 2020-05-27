@@ -1,6 +1,6 @@
 
 #read log file
-fp=open('./log1.xes')
+fp=open('./log6.xes')
 lines = fp.readlines()
 #init parameters
 count=0

@@ -46,6 +46,8 @@ log3=[]
 log4=[]
 log5=[]
 log6=[]
+head='<log xes.version="1.0" xes.features="nested-attributes" openxes.version="1.0RC7" xmlns="http://www.xes-standard.org/">'
+bottom = '</log>'
 for i in range(len(result)):
     start = idx[2*i]
     end = idx[2*i+1]

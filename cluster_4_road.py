@@ -34,6 +34,7 @@ for i in range(len(idx)):
         #print(array)
         vector_space.append(array)
     i=i+2
+print(len(vector_space))
 
 centroids,_=kmeans(vector_space,4)
 

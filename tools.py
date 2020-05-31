@@ -19,8 +19,9 @@ def get_event_time(lines,start,end):
     event_time=datetime.datetime.strptime(event_time,"%Y-%m-%d")
     return  event_time
 
-def get_full_event(lines):
+def get_full_event(lines,start_event):
     event=[]
+    event.append(start_event)
     find_all = lambda data, s: [r for r in range(len(data)) if data[r] == s]
     for i in range(len(lines)):
         if "meta_concept:named_events_total" in lines[i]:

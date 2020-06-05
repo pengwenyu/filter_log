@@ -1,0 +1,6 @@
+2020-06-03 10:55:34.017498
+2020-06-03 10:58:56.164560
+alignments success
+{'percFitTraces': 0.0, 'averageFitness': 0.4729871794871795}
+system end
+202

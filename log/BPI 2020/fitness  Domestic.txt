@@ -1,0 +1,3 @@
+{'percFitTraces': 32.15, 'averageFitness': 0.8764164924944469}
+system end
+47

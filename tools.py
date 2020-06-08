@@ -22,6 +22,8 @@ def get_event_time(lines,start,end):
 def get_full_event(lines,start_event):
     event=[]
     event.append(start_event)
+    start=0
+    end = 0
     find_all = lambda data, s: [r for r in range(len(data)) if data[r] == s]
     for i in range(len(lines)):
         if "meta_concept:named_events_total" in lines[i]:
@@ -36,6 +38,40 @@ def get_full_event(lines,start_event):
         event.append(event_name)
     return event
 
+def get_event_in_all_trace(lines):
+    event = []
+    idx=[]
+    idx_event=[]
+    index_in_event = 0
+    for i in range(len(lines)):
+        if '<trace>' in lines[i]:
+            idx.append(i)
+            # print("trace start line ",i)
+        if '</trace>' in lines[i]:
+            idx.append(i)
+        if '<event>' in lines[i]:
+            idx_event.append(i)
+        if '</event>' in lines[i]:
+            idx_event.append(i)
+
+    for i in range(0, len(idx), 2):
+        if i == len(idx) - 1:
+            break
+        start = idx[i]
+        end = idx[i + 1]
+        j = start
+        event_in_trace = 0
+        for j in range(start, end):
+            if '<event>' in lines[j]:
+                event_in_trace = event_in_trace + 1
+        for k in range(0, event_in_trace):
+            event_start = idx_event[index_in_event]
+            event_end = idx_event[index_in_event + 1]
+            event_name = get_event_name(lines, event_start, event_end)
+            if event_name not in event:
+                event.append(event_name)
+            index_in_event = index_in_event + 2
+    return event
 def get_full_dependency(lines,start_event):
     dependency=[]
     idx=[]
@@ -95,12 +131,11 @@ def get_event_index(lines):
             idx.append(i)
     return  idx
 
-fp=open('./log/Road_Traffic_Fine_Management_Process.xes')
+fp=open('./log/BPI 2020/DomesticDeclarations.xes')
 lines = fp.readlines()
-
-event =get_full_event(lines)
+event =get_event_in_all_trace(lines)
 print(len(event))
 print(event)
-dependency = get_full_dependency(lines,"Create Fine")
+dependency = get_full_dependency(lines,"Declaration SUBMITTED by EMPLOYEE")
 print(len(dependency))
 print(dependency)

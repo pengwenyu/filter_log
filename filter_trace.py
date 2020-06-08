@@ -1,7 +1,7 @@
 import numpy as np
 import random
 COUNT=2000
-fp=open('./log/CCC19.xes')
+fp=open('./log/edited_hh110_labour.xes')
 lines = fp.readlines()
 
 idx=[]

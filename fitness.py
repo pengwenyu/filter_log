@@ -1,7 +1,7 @@
 from pm4py.objects.log.importer.xes import importer as xes_importer
 import os
 import datetime
-log = xes_importer.apply(os.path.join("BPI 2020","cluster 4 time","log2.xes"))
+log = xes_importer.apply(os.path.join("BPI 2013","cluster 4 time","log4.xes"))
 
 from pm4py.algo.discovery.heuristics import algorithm as heuristics_miner
 heu_net = heuristics_miner.apply_heu(log, parameters={heuristics_miner.Variants.CLASSIC.value.Parameters.DEPENDENCY_THRESH: 0.99})

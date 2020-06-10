@@ -131,7 +131,7 @@ def get_event_index(lines):
             idx.append(i)
     return  idx
 
-fp=open('./log/Receipt phase of an environmental permit application process ( WABO ).xes')
+fp=open('./Hospital Billing/Hospital Billing.xes')
 lines = fp.readlines()
 event =get_event_in_all_trace(lines)
 print(len(event))

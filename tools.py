@@ -131,7 +131,7 @@ def get_event_index(lines):
             idx.append(i)
     return  idx
 
-fp=open('./Hospital Billing/Hospital Billing.xes')
+fp=open('./dataset/log-0-percent-noise.xes')
 lines = fp.readlines()
 event =get_event_in_all_trace(lines)
 print(len(event))

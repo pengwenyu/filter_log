@@ -6,7 +6,7 @@ event=['Confirmation of receipt','T02 Check confirmation of receipt','T03 Adjust
        'T07-1 Draft intern advice aspect 1','T07-2 Draft intern advice aspect 2','T07-3 Draft intern advice aspect 3',
        'T07-4 Draft intern advice aspect 4','T07-5 Draft intern advice aspect 5','T10 Determine necessity to stop indication']
 #read log file
-fp=open('./Recipt/Receipt phase of an environmental permit application process ( WABO ).xes')
+fp=open('./Recipt/Receipt phase.xes')
 lines = fp.readlines()
 
 idx=[]
@@ -37,7 +37,7 @@ for i in range(len(idx)):
     i=i+2
 print(len(vector_space))
 
-centroids,_=kmeans(vector_space,4)
+centroids,_=kmeans(vector_space,5)
 
 result,_=vq(vector_space,centroids)
 print(result)

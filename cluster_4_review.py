@@ -5,7 +5,7 @@ event = ["invite reviewers","get review 1","get review 2","get review 3","time-o
         "collect reviews","decide","get review X","time-out X","invite additional reviewer","accept","reject",]
 
 #read log file
-fp=open('./log/review_example_large.xes')
+fp=open('./review/review_example_large.xes')
 lines = fp.readlines()
 
 idx=[]
@@ -35,7 +35,7 @@ for i in range(len(idx)):
         vector_space.append(array)
     i=i+2
 
-centroids,_=kmeans(vector_space,6)
+centroids,_=kmeans(vector_space,3)
 
 result,_=vq(vector_space,centroids)
 print(result)
@@ -47,7 +47,15 @@ log4=[]
 log5=[]
 log6=[]
 head='<log xes.version="1.0" xes.features="nested-attributes" openxes.version="1.0RC7" xmlns="http://www.xes-standard.org/">'
-bottom = '</log>'
+tail= '</log>'
+
+log1.append(head)
+log2.append(head)
+log3.append(head)
+log4.append(head)
+log5.append(head)
+log6.append(head)
+
 for i in range(len(result)):
     start = idx[2*i]
     end = idx[2*i+1]
@@ -75,6 +83,14 @@ for i in range(len(result)):
         for j in range(start, end):
             log6.append(lines[j])
         log6.append(lines[j + 1])
+
+log1.append(tail)
+log2.append(tail)
+log3.append(tail)
+log4.append(tail)
+log5.append(tail)
+log6.append(tail)
+
 #write to file
 file=open('log1.xes','w')
 for i in range(len(log1)):

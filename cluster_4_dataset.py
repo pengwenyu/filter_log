@@ -34,7 +34,7 @@ for i in range(len(idx)):
     i=i+2
 print(len(vector_space))
 
-centroids,_=kmeans(vector_space,4)
+centroids,_=kmeans(vector_space,6)
 
 result,_=vq(vector_space,centroids)
 print(result)

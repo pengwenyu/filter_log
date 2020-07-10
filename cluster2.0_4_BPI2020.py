@@ -109,7 +109,7 @@ for i in range(0,len(idx),2):
 print("calculate done")
 print(len(vector_space))
 
-centroids,_=kmeans(vector_space,2)
+centroids,_=kmeans(vector_space,6)
 
 result,_=vq(vector_space,centroids)
 

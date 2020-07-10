@@ -5,7 +5,7 @@ event = ["invite reviewers","get review 1","get review 2","get review 3","time-o
 dependency=["i1-g1","i1-g2","i1-g3","i1-t1","i1-t2","i1-t3","g1-c","g2-c","g3-c","t1-c","t2-c","t3-c","c-d",
             "d-a","d-i2","d-r","i2-gx","i2-tx","tx-i2","gx-i2","gx-a","gx-r"]
 #read log file
-fp=open('./log/review_example_large.xes')
+fp=open('./review/review_example_large.xes')
 lines = fp.readlines()
 
 idx=[]
@@ -235,7 +235,7 @@ for i in range(len(idx)):
             vector_space.append(np.hstack((array,dep)))
     i=i+2
 
-centroids,_=kmeans(vector_space,6)
+centroids,_=kmeans(vector_space,5)
 
 result,_=vq(vector_space,centroids)
 print(result)

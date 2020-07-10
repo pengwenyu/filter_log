@@ -90,7 +90,7 @@ for i in range(0,len(idx),2):
 print("calculate done")
 print(len(vector_space))
 
-centroids,_=kmeans(vector_space,4)
+centroids,_=kmeans(vector_space,6)
 
 result,_=vq(vector_space,centroids)
 
@@ -100,7 +100,7 @@ log3=[]
 log4=[]
 log5=[]
 log6=[]
-head='<log xes.version="1.0" xes.features="nested-attributes" openxes.version="1.0RC7">'
+head='<log xes.version="1.0" xes.features="nested-attributes" openxes.version="1.0RC7">'+'\n'
 tail= '</log>'
 
 log1.append(head)

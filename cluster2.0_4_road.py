@@ -16,7 +16,7 @@ dependency=["Create Fine-Send Fine","Create Fine-Payment","Send Fine-Insert Fine
             "Notify Result Appeal to Offender-Payment",
             "Payment-Add penalty","Add penalty-Payment","Add penalty-Send for Credit Collection"]
 #read log file
-fp=open('./log/Road_Traffic_Fine_Management_Process.xes')
+fp=open('./road_traffic/Road_Traffic_Fine_Management_Process.xes')
 lines = fp.readlines()
 
 def get_event_name(lines,start,end):
@@ -98,7 +98,7 @@ for i in range(0,len(idx),2):
 print("calculate done")
 print(len(vector_space))
 
-centroids,_=kmeans(vector_space,4)
+centroids,_=kmeans(vector_space,7)
 
 result,_=vq(vector_space,centroids)
 
@@ -108,7 +108,14 @@ log3=[]
 log4=[]
 log5=[]
 log6=[]
-head='<log xes.version="1.0" xes.features="nested-attributes" openxes.version="1.0RC7">'
+log7=[]
+log8=[]
+log9=[]
+log10=[]
+log11=[]
+log12=[]
+
+head='<log xes.version="1.0" xes.features="nested-attributes" openxes.version="1.0RC7">'+'\n'
 tail= '</log>'
 
 log1.append(head)
@@ -117,7 +124,12 @@ log3.append(head)
 log4.append(head)
 log5.append(head)
 log6.append(head)
-
+log7.append(head)
+log8.append(head)
+log9.append(head)
+log10.append(head)
+log11.append(head)
+log12.append(head)
 for i in range(len(result)):
     start = idx[2*i]
     end = idx[2*i+1]
@@ -145,6 +157,30 @@ for i in range(len(result)):
         for j in range(start, end):
             log6.append(lines[j])
         log6.append(lines[j + 1])
+    if result[i]==6:
+        for j in range(start, end):
+            log7.append(lines[j])
+        log7.append(lines[j+1])
+    if result[i]==7:
+        for j in range(start, end):
+            log8.append(lines[j])
+        log8.append(lines[j + 1])
+    if result[i]==8:
+        for j in range(start, end):
+            log9.append(lines[j])
+        log9.append(lines[j+1])
+    if result[i]==9:
+        for j in range(start, end):
+            log10.append(lines[j])
+        log10.append(lines[j + 1])
+    if result[i]==10:
+        for j in range(start, end):
+            log11.append(lines[j])
+        log11.append(lines[j+1])
+    if result[i]==11:
+        for j in range(start, end):
+            log12.append(lines[j])
+        log12.append(lines[j + 1])
 #write to file
 
 log1.append(tail)
@@ -153,6 +189,12 @@ log3.append(tail)
 log4.append(tail)
 log5.append(tail)
 log6.append(tail)
+log7.append(tail)
+log8.append(tail)
+log9.append(tail)
+log10.append(tail)
+log11.append(tail)
+log12.append(tail)
 
 file=open('log1.xes','w')
 for i in range(len(log1)):
@@ -187,4 +229,40 @@ file.close()
 file=open('log6.xes','w')
 for i in range(len(log6)):
     file.write(log6[i]);
+file.close()
+
+
+file=open('log7.xes','w')
+for i in range(len(log7)):
+    file.write(log7[i]);
+file.close()
+
+#write to file
+file=open('log8.xes','w')
+for i in range(len(log8)):
+    file.write(log8[i]);
+file.close()
+
+#write to file
+file=open('log9.xes','w')
+for i in range(len(log9)):
+    file.write(log9[i]);
+file.close()
+
+#write to file
+file=open('log10.xes','w')
+for i in range(len(log10)):
+    file.write(log10[i]);
+file.close()
+
+#write to file
+file=open('log11.xes','w')
+for i in range(len(log11)):
+    file.write(log11[i]);
+file.close()
+
+#write to file
+file=open('log12.xes','w')
+for i in range(len(log12)):
+    file.write(log12[i]);
 file.close()

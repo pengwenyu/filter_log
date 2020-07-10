@@ -30,7 +30,7 @@ dependency=['Confirmation of receipt-T02 Check confirmation of receipt',
             'T07-5 Draft intern advice aspect 5-T06 Determine necessity of stop advice',
             ]
 #read log file
-fp=open('./Recipt/Receipt phase of an environmental permit application process ( WABO ).xes')
+fp=open('./Recipt/Receipt phase.xes')
 lines = fp.readlines()
 
 def get_event_name(lines,start,end):
@@ -113,7 +113,7 @@ for i in range(0,len(idx),2):
 print("calculate done")
 print(len(vector_space))
 
-centroids,_=kmeans(vector_space,4)
+centroids,_=kmeans(vector_space,6)
 
 result,_=vq(vector_space,centroids)
 

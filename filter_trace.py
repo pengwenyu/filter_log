@@ -1,7 +1,7 @@
 import numpy as np
 import random
 COUNT=2000
-fp=open('./log/edited_hh110_labour.xes')
+fp=open('./BPI 2020/cluster 4 time/log4.xes')
 lines = fp.readlines()
 
 idx=[]
@@ -11,7 +11,7 @@ for i in range(len(lines)):
         idx.append(i)
     if '</trace>' in lines[i]:
         idx.append(i)
-print(len(idx)/2)
+print('the number of trace is',len(idx)/2)
 trace_number = int(len(idx)/2)
 resultList=[]
 
@@ -44,8 +44,8 @@ for i in range(len(new_line)):
     if '</trace>' in new_line[i]:
         new_idx.append(i)
 
-print(len(new_idx)/2)
-file=open('./log/2000trace.xes','w')
-for i in range(len(new_line)):
-    file.write(new_line[i]);
-file.close()
+#print(len(new_idx)/2)
+#file=open('./log/2000trace.xes','w')
+#for i in range(len(new_line)):
+#    file.write(new_line[i]);
+#file.close()

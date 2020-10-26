@@ -1,6 +1,7 @@
 import numpy as np
 np.set_printoptions(suppress=True)
 from scipy.cluster.vq import vq,kmeans,whiten
+from numpy import *
 import datetime
 import random
 from sklearn.metrics.pairwise import pairwise_distances
@@ -138,17 +139,45 @@ X= np.array(vector_space)
 X = sparse.csr_matrix(X)
 #print(X)
 # 300 500
-c=canopy(X,1,80,distance_metric='euclidean', filemap=None)
+start = datetime.datetime.now()
+c=canopy(X,350,500,distance_metric='euclidean', filemap=None)
+end = datetime.datetime.now()
+canopy_time=end-start
+print ('running time is',end-start)
 print('Length of canopy is ',len(c))
-for i in range(0,len(c)):
-    print(c[i])
 
 
 start = datetime.datetime.now()
-centroids,_=kmeans(vector_space,5)
+centroids,_=kmeans(vector_space,7)
 result,_=vq(vector_space,centroids)
 end = datetime.datetime.now()
-print ('running time is',end-start)
+print ('k-means package running time is',end-start)
+
+start = datetime.datetime.now()
+from kmeans import kmeans
+dataSet = mat(vector_space)
+k = 6
+centroids, clusterAssment = kmeans(dataSet, k)
+end = datetime.datetime.now()
+print ('k-means running time is',end-start)
+
+centroids=[]
+space=[]
+for i in range(0,len(c)):
+    #print(c[i])
+    centroids.append(c[i]['c'])
+    s=c[i]['points']
+    for j in range(0,len(s)):
+        space.append(s[j])
+print(centroids)
+print(space)
+start = datetime.datetime.now()
+result,_=vq(space,centroids)
+end = datetime.datetime.now()
+canopy_time=canopy_time+end-start
+print ('canopy running time is',canopy_time)
+
+
 
 log1=[]
 log2=[]

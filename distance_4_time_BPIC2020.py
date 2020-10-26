@@ -109,92 +109,67 @@ for i in range(0,len(idx),2):
 print("calculate done")
 print(len(vector_space))
 
-centroids,_=kmeans(vector_space,6)
+centroids,_=kmeans(vector_space,5)
 result,_=vq(vector_space,centroids)
 
-log1=[]
-log2=[]
-log3=[]
-log4=[]
-log5=[]
-log6=[]
-head='<log xes.version="1.0" xes.features="nested-attributes" openxes.version="1.0RC7">'
-tail= '</log>'
 
-log1.append(head)
-log2.append(head)
-log3.append(head)
-log4.append(head)
-log5.append(head)
-log6.append(head)
-
-for i in range(len(result)):
-    start = idx[2*i]
-    end = idx[2*i+1]
+cluster1=[]
+cluster2=[]
+cluster3=[]
+cluster4=[]
+cluster5=[]
+cluster6=[]
+for i in range(0,len(vector_space)):
     if result[i]==0:
-        for j in range(start, end):
-            log1.append(lines[j])
-        log1.append(lines[j+1])
+        cluster1.append(vector_space[i])
     if result[i]==1:
-        for j in range(start, end):
-            log2.append(lines[j])
-        log2.append(lines[j + 1])
+        cluster2.append(vector_space[i])
     if result[i]==2:
-        for j in range(start, end):
-            log3.append(lines[j])
-        log3.append(lines[j+1])
+        cluster3.append(vector_space[i])
     if result[i]==3:
-        for j in range(start, end):
-            log4.append(lines[j])
-        log4.append(lines[j + 1])
+        cluster4.append(vector_space[i])
     if result[i]==4:
-        for j in range(start, end):
-            log5.append(lines[j])
-        log5.append(lines[j+1])
+        cluster5.append(vector_space[i])
     if result[i]==5:
-        for j in range(start, end):
-            log6.append(lines[j])
-        log6.append(lines[j + 1])
-#write to file
-
-log1.append(tail)
-log2.append(tail)
-log3.append(tail)
-log4.append(tail)
-log5.append(tail)
-log6.append(tail)
-
-file=open('log1.xes','w')
-for i in range(len(log1)):
-    file.write(log1[i]);
-file.close()
-
-#write to file
-file=open('log2.xes','w')
-for i in range(len(log2)):
-    file.write(log2[i]);
-file.close()
-
-#write to file
-file=open('log3.xes','w')
-for i in range(len(log3)):
-    file.write(log3[i]);
-file.close()
-
-#write to file
-file=open('log4.xes','w')
-for i in range(len(log4)):
-    file.write(log4[i]);
-file.close()
-
-#write to file
-file=open('log5.xes','w')
-for i in range(len(log5)):
-    file.write(log5[i]);
-file.close()
-
-#write to file
-file=open('log6.xes','w')
-for i in range(len(log6)):
-    file.write(log6[i]);
-file.close()
+        cluster6.append(vector_space[i])
+print("calculation start")
+sum=0
+times=0
+for i in range(0,len(cluster1)):
+    for j in range(i,len(cluster1)):
+        dist = np.linalg.norm(cluster1[i] - cluster1[j])
+        sum=sum+dist
+        times=times+1
+print(sum/times)
+sum=0
+times=0
+for i in range(0,len(cluster2)):
+    for j in range(i,len(cluster2)):
+        dist = np.linalg.norm(cluster2[i] - cluster2[j])
+        sum=sum+dist
+        times=times+1
+print(sum/times)
+sum=0
+times=0
+for i in range(0,len(cluster3)):
+    for j in range(i,len(cluster3)):
+        dist = np.linalg.norm(cluster3[i] - cluster3[j])
+        sum=sum+dist
+        times=times+1
+print(sum/times)
+sum=0
+times=0
+for i in range(0,len(cluster4)):
+    for j in range(i,len(cluster4)):
+        dist = np.linalg.norm(cluster4[i] - cluster4[j])
+        sum=sum+dist
+        times=times+1
+print(sum/times)
+sum=0
+times=0
+for i in range(0,len(cluster5)):
+    for j in range(i,len(cluster5)):
+        dist = np.linalg.norm(cluster5[i] - cluster5[j])
+        sum=sum+dist
+        times=times+1
+print(sum/times)

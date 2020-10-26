@@ -6,7 +6,7 @@ event = ["Create Fine","Send Fine","Insert Fine Notification","Add penalty","Pay
         "Send Appeal to Prefecture","Receive Result Appeal from Prefecture","Notify Result Appeal to Offender","Appeal to Judge","Send for Credit Collection",]
 
 #read log file
-fp=open('./road_traffic/Road_Traffic_Fine_Management_Process.xes')
+fp=open('./road_traffic/1000trace.xes')
 lines = fp.readlines()
 
 idx=[]
@@ -21,7 +21,7 @@ for i in range(len(lines)):
 #print(len(idx))
 vector_space = []
 for i in range(len(idx)):
-    if i== 300739:
+    if i== len(idx)-1:
         break
     start = idx[i]
     end = idx[i+1]
@@ -36,6 +36,7 @@ for i in range(len(idx)):
         vector_space.append(array)
     i=i+2
 #print(len(vector_space))
+#print(vector_space)
 start = datetime.datetime.now()
 centroids,_=kmeans(vector_space,6)
 result,_=vq(vector_space,centroids)

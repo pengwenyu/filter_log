@@ -1,31 +1,8 @@
 import numpy as np
 np.set_printoptions(suppress=True)
 from scipy.cluster.vq import vq,kmeans,whiten
-import random
+
 import datetime
-from sklearn.metrics.pairwise import pairwise_distances
-from scipy import sparse
-from scipy.spatial import distance
-def canopy(X, T1, T2, distance_metric='euclidean', filemap=None):
-    canopies = dict()
-    X1_dist = pairwise_distances(X, metric=distance_metric)
-    canopy_points = set(range(X.shape[0]))
-    while canopy_points:
-        point = canopy_points.pop()
-        i = len(canopies)
-        canopies[i] = {"c": point, "points": list(np.where(X1_dist[point] < T2)[0])}
-        canopy_points = canopy_points.difference(set(np.where(X1_dist[point] < T1)[0]))
-    if filemap:
-        for canopy_id in canopies.keys():
-            canopy = canopies.pop(canopy_id)
-            canopy2 = {"c": filemap[canopy['c']], "points": list()}
-            for point in canopy['points']:
-                canopy2["points"].append(filemap[point])
-            canopies[canopy_id] = canopy2
-    return canopies
-
-
-
 event = ["Create Fine","Send Fine","Insert Fine Notification","Add penalty","Payment","Insert Date Appeal to Prefecture",
         "Send Appeal to Prefecture","Receive Result Appeal from Prefecture","Notify Result Appeal to Offender", "Appeal to Judge", "Send for Credit Collection",]
 dependency=["Create Fine-Send Fine","Create Fine-Payment","Send Fine-Insert Fine Notification",
@@ -122,14 +99,37 @@ for i in range(0,len(idx),2):
 
     vector_space.append(np.hstack((array, dep)))
 print("calculate done")
-print(len(vector_space))
+#print(vector_space)
 #print(sum_time/17/150370)
 
+import random
+from scipy.spatial import distance
+from scipy import sparse
+from numpy import mat
+from sklearn.metrics.pairwise import pairwise_distances
+
+def canopy(X, T1, T2, distance_metric='euclidean', filemap=None):
+    canopies = dict()
+    X1_dist = pairwise_distances(X, metric=distance_metric)
+    canopy_points = set(range(X.shape[0]))
+    while canopy_points:
+        point = canopy_points.pop()
+        i = len(canopies)
+        canopies[i] = {"c": point, "points": list(np.where(X1_dist[point] < T2)[0])}
+        canopy_points = canopy_points.difference(set(np.where(X1_dist[point] < T1)[0]))
+    if filemap:
+        for canopy_id in canopies.keys():
+            canopy = canopies.pop(canopy_id)
+            canopy2 = {"c": filemap[canopy['c']], "points": list()}
+            for point in canopy['points']:
+                canopy2["points"].append(filemap[point])
+            canopies[canopy_id] = canopy2
+    return canopies
+
 distnace_metrix=[]
+resultList=random.sample(range(0,150370),50)
 
-resultList=random.sample(range(0,150370),10)
-
-for i in range(0,10):
+for i in range(0,50):
     for j in range(0,150370):
         vec1 = vector_space[resultList[i]]
         vec2 = vector_space[j]
@@ -143,7 +143,6 @@ T1 =distnace_metrix[int(l*0.25)]
 T2 =distnace_metrix[int(l*0.75)]
 print(T1)
 print(T2)
-
 new_space=[]
 resultList=random.sample(range(0,150370),20000)
 for i in range(0,len(resultList)):
@@ -152,20 +151,47 @@ X= np.array(new_space)
 #print(X)
 X = sparse.csr_matrix(X)
 #print(X)
-c=canopy(X,1050,1060,distance_metric='euclidean', filemap=None)
+start = datetime.datetime.now()
+c=canopy(X,T1,T2,distance_metric='euclidean', filemap=None)
+end = datetime.datetime.now()
+canopy_time=end-start
+print ('running time is',end-start)
 print('Length of canopy is ',len(c))
-#for i in range(0,len(c)):
-    #print(c[i])
-
-
-
 
 
 start = datetime.datetime.now()
-centroids,_=kmeans(vector_space,5)
+centroids,_=kmeans(vector_space,7)
 result,_=vq(vector_space,centroids)
 end = datetime.datetime.now()
-print ('running time is',end-start)
+print ('k-means package running time is',end-start)
+
+start = datetime.datetime.now()
+from kmeans import kmeans
+dataSet = mat(new_space)
+k = 6
+centroids, clusterAssment = kmeans(dataSet, k)
+end = datetime.datetime.now()
+print ('k-means running time is',end-start)
+
+centroids=[]
+space=[]
+for i in range(0,len(c)):
+    #print(c[i])
+    centroids.append(c[i]['c'])
+    s=c[i]['points']
+    for j in range(0,len(s)):
+        space.append(s[j])
+#print(centroids)
+#print(space)
+start = datetime.datetime.now()
+result,_=vq(space,centroids)
+end = datetime.datetime.now()
+canopy_time=canopy_time+end-start
+print ('canopy running time is',canopy_time)
+
+
+
+
 
 log1=[]
 log2=[]

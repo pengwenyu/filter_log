@@ -2,31 +2,13 @@ import numpy as np
 np.set_printoptions(suppress=True)
 from scipy.cluster.vq import vq,kmeans,whiten
 import datetime
-event=['Declaration SUBMITTED by EMPLOYEE', 'Declaration FINAL_APPROVED by SUPERVISOR', 'Request Payment',
-       'Payment Handled', 'Declaration APPROVED by PRE_APPROVER',
-       'Declaration REJECTED by PRE_APPROVER', 'Declaration REJECTED by EMPLOYEE',
-       'Declaration REJECTED by SUPERVISOR', 'Declaration APPROVED by ADMINISTRATION', 'Declaration APPROVED by BUDGET OWNER',
-        'Declaration REJECTED by ADMINISTRATION',
-        'Declaration FOR_APPROVAL by ADMINISTRATION']
-
-dependency=['Declaration SUBMITTED by EMPLOYEE-Declaration FINAL_APPROVED by SUPERVISOR', 'Declaration FINAL_APPROVED by SUPERVISOR-Request Payment',
-            'Request Payment-Payment Handled','Declaration SUBMITTED by EMPLOYEE-Declaration APPROVED by PRE_APPROVER',
-            'Declaration APPROVED by PRE_APPROVER-Declaration FINAL_APPROVED by SUPERVISOR',
-            'Declaration SUBMITTED by EMPLOYEE-Declaration REJECTED by PRE_APPROVER',
-            'Declaration SUBMITTED by EMPLOYEE-Declaration FOR_APPROVAL by ADMINISTRATION',
-            'Declaration FOR_APPROVAL by ADMINISTRATION-Declaration SUBMITTED by EMPLOYEE',
-            'Declaration REJECTED by EMPLOYEE-Declaration SUBMITTED by EMPLOYEE',
-            'Declaration SUBMITTED by EMPLOYEE-Declaration APPROVED by ADMINISTRATION',
-            'Declaration APPROVED by ADMINISTRATION-Declaration FINAL_APPROVED by SUPERVISOR',
-            'Declaration APPROVED by ADMINISTRATION-Declaration APPROVED by BUDGET OWNER',
-            'Declaration APPROVED by ADMINISTRATION-Declaration REJECTED by SUPERVISOR',
-            'Declaration APPROVED by BUDGET OWNER-Declaration FINAL_APPROVED by SUPERVISOR',
-            'Declaration REJECTED by SUPERVISOR-Declaration REJECTED by EMPLOYEE',
-            'Declaration SUBMITTED by EMPLOYEE-Declaration REJECTED by ADMINISTRATION',
-            'Declaration REJECTED by ADMINISTRATION-Declaration REJECTED by EMPLOYEE'
+event = ['Triage', 'Register', 'Check', 'X-Ray', 'Visit', 'Final Visit', 'Prepare', 'Organize Ambulance']
+dependency=['Triage-Register','Register-Check','Register-X-Ray','Check-X-Ray','Check-Visit','Check-Final Visit','Check-Prepare',
+            'Check-Organize Ambulance','X-Ray-Check','Visit-Check','Prepare-Check','Final Visit-Check','Organize Ambulance-Check',
+            'X-Ray-Final Visit','Visit-Final Visit','Final Visit-Prepare','Prepare-Organize Ambulance'
             ]
 #read log file
-fp=open('./log/BPI 2020/DomesticDeclarations.xes')
+fp=open('./dataset/log-0-percent-noise.xes')
 lines = fp.readlines()
 
 def get_event_name(lines,start,end):
@@ -109,8 +91,95 @@ for i in range(0,len(idx),2):
 print("calculate done")
 print(len(vector_space))
 
-centroids,_=kmeans(vector_space,6)
+import random
+from scipy.spatial import distance
+from scipy import sparse
+from numpy import mat
+from sklearn.metrics.pairwise import pairwise_distances
+
+def canopy(X, T1, T2, distance_metric='euclidean', filemap=None):
+    canopies = dict()
+    X1_dist = pairwise_distances(X, metric=distance_metric)
+    canopy_points = set(range(X.shape[0]))
+    while canopy_points:
+        point = canopy_points.pop()
+        i = len(canopies)
+        canopies[i] = {"c": point, "points": list(np.where(X1_dist[point] < T2)[0])}
+        canopy_points = canopy_points.difference(set(np.where(X1_dist[point] < T1)[0]))
+    if filemap:
+        for canopy_id in canopies.keys():
+            canopy = canopies.pop(canopy_id)
+            canopy2 = {"c": filemap[canopy['c']], "points": list()}
+            for point in canopy['points']:
+                canopy2["points"].append(filemap[point])
+            canopies[canopy_id] = canopy2
+    return canopies
+
+distnace_metrix=[]
+resultList=random.sample(range(0,100000),50)
+
+for i in range(0,50):
+    for j in range(0,100000):
+        vec1 = vector_space[resultList[i]]
+        vec2 = vector_space[j]
+        dist = distance.euclidean(vec1,vec2)
+        distnace_metrix.append(dist)
+distnace_metrix.sort()
+
+l= len(distnace_metrix)
+print(l)
+T1 =distnace_metrix[int(l*0.25)]
+T2 =distnace_metrix[int(l*0.75)]
+print(T1)
+print(T2)
+new_space=[]
+resultList=random.sample(range(0,100000),20000)
+for i in range(0,len(resultList)):
+    new_space.append(vector_space[resultList[i]])
+X= np.array(new_space)
+#print(X)
+X = sparse.csr_matrix(X)
+#print(X)
+start = datetime.datetime.now()
+c=canopy(X,T1,T2,distance_metric='euclidean', filemap=None)
+end = datetime.datetime.now()
+canopy_time=end-start
+print ('running time is',end-start)
+print('Length of canopy is ',len(c))
+
+
+start = datetime.datetime.now()
+centroids,_=kmeans(vector_space,7)
 result,_=vq(vector_space,centroids)
+end = datetime.datetime.now()
+print ('k-means package running time is',end-start)
+
+start = datetime.datetime.now()
+from kmeans import kmeans
+dataSet = mat(new_space)
+k = 6
+centroids, clusterAssment = kmeans(dataSet, k)
+end = datetime.datetime.now()
+print ('k-means running time is',end-start)
+
+centroids=[]
+space=[]
+for i in range(0,len(c)):
+    #print(c[i])
+    centroids.append(c[i]['c'])
+    s=c[i]['points']
+    for j in range(0,len(s)):
+        space.append(s[j])
+#print(centroids)
+#print(space)
+start = datetime.datetime.now()
+result,_=vq(space,centroids)
+end = datetime.datetime.now()
+canopy_time=canopy_time+end-start
+print ('canopy running time is',canopy_time)
+
+
+
 
 log1=[]
 log2=[]
@@ -118,7 +187,7 @@ log3=[]
 log4=[]
 log5=[]
 log6=[]
-head='<log xes.version="1.0" xes.features="nested-attributes" openxes.version="1.0RC7">'
+head='<log xes.version="1.0" xes.features="nested-attributes" openxes.version="1.0RC7">'+'\n'
 tail= '</log>'
 
 log1.append(head)

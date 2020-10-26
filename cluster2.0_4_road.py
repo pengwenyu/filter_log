@@ -1,6 +1,7 @@
 import numpy as np
 np.set_printoptions(suppress=True)
 from scipy.cluster.vq import vq,kmeans,whiten
+
 import datetime
 event = ["Create Fine","Send Fine","Insert Fine Notification","Add penalty","Payment","Insert Date Appeal to Prefecture",
         "Send Appeal to Prefecture","Receive Result Appeal from Prefecture","Notify Result Appeal to Offender", "Appeal to Judge", "Send for Credit Collection",]
@@ -58,7 +59,8 @@ start_event=event[0]
 vector_space = []
 index_in_event =0
 
-
+sum_time=0
+average_time=19.301498656255745
 for i in range(0,len(idx),2):
     if i== len(idx)-1:
         break
@@ -90,17 +92,22 @@ for i in range(0,len(idx),2):
                 if edge in dependency[z]:
                     final_time=event_time-time_dependency
                     dep[z]= final_time.days
+                    sum_time=sum_time+final_time.days
         last_event = event_name
         time_dependency=event_time
         index_in_event=index_in_event+2
 
     vector_space.append(np.hstack((array, dep)))
 print("calculate done")
-print(len(vector_space))
+#print(vector_space)
+#print(sum_time/17/150370)
 
-centroids,_=kmeans(vector_space,7)
-
+start = datetime.datetime.now()
+centroids,_=kmeans(vector_space,5)
+#print(centroids)
 result,_=vq(vector_space,centroids)
+end = datetime.datetime.now()
+print ('running time is',end-start)
 
 log1=[]
 log2=[]
